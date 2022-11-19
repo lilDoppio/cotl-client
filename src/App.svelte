@@ -1,19 +1,25 @@
 <script>
-	import ListBar from "./components/ListBar.svelte";
-	import TrackBar from "./components/TrackBar.svelte";
+	import ListBar from "./components/playlist/ListBar.svelte";
+	import TrackBar from "./components/sound-panel/TrackBar.svelte";
+	import { list } from "./store/soundStore";
 
-	let list = [
-		{id: 1, name: 'cancun', position: 0},
-		{id: 123, name: 'FollowGod', position: 1},
-		{id: 33, name: 'vodila', position: 2},
-	]
+	fetch('http://127.0.0.1:3000/')
+		.then(res => {
+			return res.json();
+		})
+		.then(res => {
+			list.set(res);
+		})
+		.catch(err => {
+			console.log(err)
+		})
 
-	let selectedTrack = {};
+
 </script>
 
 <div class="main">
-	<TrackBar selectedTrack={selectedTrack} list={list}/>
-	<ListBar on:select={(e) => selectedTrack = e.detail} list={list}/>
+	<ListBar />
+	<TrackBar />
 </div>
 
 <style>
